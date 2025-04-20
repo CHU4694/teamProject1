@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lan="ko">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>{{ location.name }} 보드게임 정보</title>
@@ -10,8 +10,17 @@
     <h3>총 지점수</h3>
     <div class="value">{{ location.count_locations }}개</div>
     <h3>고유 보드게임 수</h3>
-    <div class="value">{{ locaion.unique_games }}개</div>
+    <div class="value">{{ location.unique_games }}개</div>
     <h3>지점별 평균 보유 게임 수</h3>
-    <div class="value">{{ locaion.average_games_by_location}}개</div>
+    <div class="value">{{ location.average_games_by_location }}개</div>
+
+    <h2>지점별 보유 현황</h2>
+    {% for store in stores %}
+    <div>{{ store.name }}</div>
+    <div>
+        <span>보유 게임 수: {{ store.owned_games }}개</span>
+        <span>미보유 게임 수:{{ store.not_owned_games }}개</span>
+    </div>
+    {% endfor %}
 </body>
 </html>

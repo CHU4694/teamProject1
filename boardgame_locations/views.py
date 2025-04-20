@@ -51,15 +51,15 @@ def location_detail(request, location_name):
     ]
 
     for i in range(26, 101):
+        all_games.append(f'보드게임 {i}')
         
-        store_games_dict = {}
-        all_games_in_region = set()
-
+    all_games_in_region = set()
+    store_games_dict = {}
+    
     for i in range(1, num_stores + 1):
-        store_name = f"{location_name} 매장"
+        store_name = f"{location_name} 매장{i}"
 
         base_owned = random.randint(10, 30)
-        owned = int(base_owned)
 
         store_games = random.sample(all_games, min(base_owned, len(all_games)))
 
