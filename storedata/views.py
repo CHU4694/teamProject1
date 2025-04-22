@@ -1,24 +1,10 @@
 from django.shortcuts import render
-<<<<<<< HEAD
 from .models import StoreGameData
 from django.db.models import Count, Sum, Avg
-=======
-
-from .models import StoreGameData
-from django.db.models import Count, Sum, Avg
-
-from django.http import JsonResponse
-from storedata.models import StoreGameData
-
->>>>>>> 8de243b016fbf2c548428995a7a66d8fa9699a5e
 
 # Create your views here.
-<<<<<<< HEAD
-def index(request):
-=======
 
-def dashboard(request):
->>>>>>> 8de243b016fbf2c548428995a7a66d8fa9699a5e
+def index(request):
     # 선택한 지역 (기본값: 전체)
     selected_region = request.GET.get('region', '전체')
     
@@ -91,13 +77,4 @@ def dashboard(request):
         'missing_list': missing_list
     }
     
-<<<<<<< HEAD
     return render(request, 'storedata/index.html', context)
-=======
-    return render(request, 'storedata/dashboard.html', context)
-
-def region_list(request):
-    regions = StoreGameData.objects.values_list('region', flat=True).distinct()
-    return JsonResponse(list(regions), safe=False)
-
->>>>>>> 8de243b016fbf2c548428995a7a66d8fa9699a5e
