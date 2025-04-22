@@ -21,5 +21,17 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+<<<<<<< HEAD
     path("", include('storedata.urls'))
+=======
+    path("", include('storedata.urls')),
+
+from django.urls import path,include
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('',include('storedata.urls'))
+
+>>>>>>> 7113f8746f26a3da2c41b0256c41a9c1501f0c85
 ]
