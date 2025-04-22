@@ -1,8 +1,17 @@
 from django.shortcuts import render
+<<<<<<< HEAD
 from .models import StoreGameData
 from django.db.models import Count, Sum, Avg
+=======
+from django.http import JsonResponse
+from storedata.models import StoreGameData
+>>>>>>> 07f0949 (내 작업 백업 커밋)
 
+
+def index(request):
+    return render(request, 'storedata/index.html')
 # Create your views here.
+<<<<<<< HEAD
 def dashboard(request):
     # 선택한 지역 (기본값: 전체)
     selected_region = request.GET.get('region', '전체')
@@ -70,3 +79,8 @@ def dashboard(request):
     }
     
     return render(request, 'storedata/dashboard.html', context)
+=======
+def region_list(request):
+    regions = StoreGameData.objects.values_list('region', flat=True).distinct()
+    return JsonResponse(list(regions), safe=False)
+>>>>>>> 07f0949 (내 작업 백업 커밋)

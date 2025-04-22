@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>보드게임 현황 대시보드</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="h-screen flex">
+  <!-- 왼쪽 사이드바 -->
+  <aside class="w-1/5 bg-gray-100 p-4">
+    <h2 class="text-xl font-bold mb-4">지역 목록</h2>
+    <ul id="region-list" class="space-y-2"></ul>
+  </aside>
+
+  <!-- 오른쪽 콘텐츠 -->
+  <main class="w-4/5 p-6 space-y-6 overflow-auto">
+    <h1 id="region-title" class="text-2xl font-bold"></h1>
+    <section id="summary-box" class="bg-white shadow p-4 rounded">요약 정보</section>
+    <!--크기 키움-->
+    <section class="flex gap-4 h-[300px]">
+      <div id="chart-box" class="flex-1 bg-white shadow p-4 rounded">차트 자리</div>
+      <div id="wordcloud-box" class="flex-1 bg-white shadow p-4 rounded">워드클라우드 자리</div>
+    </section>
+    <section id="heatmap-box" class="bg-white shadow p-4 rounded h-[400px]">히트맵 자리</section>
+    <section id="table-box" class="bg-white shadow p-4 rounded">테이블 자리</section>
+  </main>
+
+  <script>
+    //지역 가져오기
+    window.onload = () => {
+      fetch('/api/regions/')
+        .then(response => response.json())
+        .then(regions => {
+          const list = document.getElementById('region-list');
+          list.innerHTML = '';
+          regions.forEach(region => {
+            const li = document.createElement('li');
+            li.textContent = region;
+            li.classList = 'cursor-pointer hover:text-blue-600 px-2 py-1';
+            li.onclick = () => loadRegion(region);
+            list.appendChild(li);
+          });
+        });
+    };
+    //통계요약
+    function renderSummary(data, region) {
+      document.getElementById('summary-box').innerHTML = `
+        <p><strong>${region}</strong> 통계 </p>
+        <ul class="list-disc list-inside">
+          <li>총 지점 수: ${data.store_count}</li>
+          <li>고유 보드게임 수: ${data.unique_game_count}</li>
+          <li>지점별 평균 보유 게임 수: ${data.average_owned}</li>
+        </ul>
+      `;
+    }
+    //차트, 워드클라우드, 히트맵
+    function renderCharts(region) {
+      document.getElementById('chart-box').innerHTML = `<img src="/static/charts/${region}.png" class="w-full h-full object-contain" alt="차트">`;
+      document.getElementById('wordcloud-box').innerHTML = `<img src="/static/wordclouds/${region}.png" alt="워드클라우드">`;
+      document.getElementById('heatmap-box').innerHTML = `<img src="/static/heatmaps/${region}.png" alt="히트맵">`;
+    }
+    //지점별 보유,미보유
+    //버튼, 숨김박스
+    function createToggleBlock(label, items, className, idx) {
+      const btn = document.createElement('p');
+      btn.textContent = `${label} ${items.length}개`;
+      btn.className = className;
+
+      const box = document.createElement('div');
+      box.className = 'hidden mt-2 text-sm';
+      box.innerHTML = `<p>${label === '보유' ? '📦' : '❌'} ${label}: ${items.join(', ')}</p>`;
+
+      btn.addEventListener('click', () => box.classList.toggle('hidden'));
+
+      return { btn, box };
+    }
+    //게임종류
+    function renderStoreList(stores) {
+      const tableBox = document.getElementById('table-box');
+      tableBox.innerHTML = `<p>지점별 보유/미보유 게임</p><ul id="store-list" class="space-y-2"></ul>`;
+      //오른쪽 아래 테이블 영역 비우고 초기화
+      const storeList = document.getElementById('store-list');
+
+      //각 지점마다 <li>, 테두리, 여백 적용
+      stores.forEach((store, idx) => {
+        const li = document.createElement('li');
+        li.className = 'border p-2 rounded';
+        //이름 굵게
+        const name = document.createElement('p');
+        name.className = 'font-bold';
+        name.textContent = store.name;
+        //버튼, 박스
+        const { btn: ownedBtn, box: ownedBox } 
+        = createToggleBlock('보유', store.owned_list, 'cursor-pointer text-blue-600', idx);
+        const { btn: missingBtn, box: missingBox } 
+        = createToggleBlock('미보유', store.missing_list, 'cursor-pointer text-red-600 mt-2', idx);
+
+        li.appendChild(name);
+        li.appendChild(ownedBtn);
+        li.appendChild(ownedBox);
+        li.appendChild(missingBtn);
+        li.appendChild(missingBox);
+        storeList.appendChild(li);
+      });
+    }
+
+    //더미데이터
+    function loadRegion(region) {
+      const data = {
+        store_count: 5,
+        unique_game_count: 120,
+        average_owned: 46.8,
+        stores: [
+          {
+            name: '강남점',
+            owned_count: 50,
+            missing_count: 10,
+            owned_list: ['카탄', '티츄', '루미큐브'],
+            missing_list: ['도블', '러브레터']
+          },
+          {
+            name: '홍대점',
+            owned_count: 40,
+            missing_count: 20,
+            owned_list: ['스플렌더', '티켓투라이드'],
+            missing_list: ['아발론', '젠가']
+          }
+        ]
+      };
+
+      renderSummary(data, region);
+      renderCharts(region);
+      renderStoreList(data.stores);
+      document.getElementById('region-title').textContent = `선택한 지역: ${region}`;
+    }
+  </script>
+</body>
+</html>

@@ -4,7 +4,7 @@ from storedata.models import StoreGameData
 
 class Command(BaseCommand):
     help = "CSV 파일로부터 스토어 데이터 불러오기"
-
+    
     def add_arguments(self, parser):
         parser.add_argument("csv_path", type=str)
 

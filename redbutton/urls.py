@@ -16,9 +16,18 @@ Including another URLconf
 """
 
 from django.contrib import admin
+<<<<<<< HEAD
 from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include('storedata.urls')),
+=======
+from django.urls import path,include
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('',include('storedata.urls'))
+>>>>>>> 07f0949 (내 작업 백업 커밋)
 ]
