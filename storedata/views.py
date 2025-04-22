@@ -1,18 +1,9 @@
 from django.shortcuts import render
-<<<<<<< HEAD
 from .models import StoreGameData
 from django.db.models import Count, Sum, Avg
-=======
-from django.http import JsonResponse
-from storedata.models import StoreGameData
->>>>>>> 07f0949 (내 작업 백업 커밋)
 
-
-def index(request):
-    return render(request, 'storedata/index.html')
 # Create your views here.
-<<<<<<< HEAD
-def dashboard(request):
+def index(request):
     # 선택한 지역 (기본값: 전체)
     selected_region = request.GET.get('region', '전체')
     
@@ -42,12 +33,17 @@ def dashboard(request):
     # 지점별 데이터 및 각 지점의 상세 정보
     stores_data = []
     for store in queryset:
+        owned_list = store.owned_list.split(';') if store.owned_list else []
+        missing_list = store.missing_list.split(';') if store.missing_list else []
         store_data = {
             'store': store.store,
             'region': store.region,
             'owned_count': store.owned_count,
             'missing_count': store.missing_count,
-            'total': store.owned_count + store.missing_count
+            'total': store.owned_count + store.missing_count,
+            'owned_list': owned_list,
+            'missing_list': missing_list
+
         }
         stores_data.append(store_data)
     
@@ -75,12 +71,9 @@ def dashboard(request):
         'unique_games': unique_games,
         'average_games': average_games,
         'stores': stores_data,
-        'location_detail': location_detail
+        'location_detail': location_detail,
+        'owned_list': owned_list,
+        'missing_list': missing_list
     }
     
-    return render(request, 'storedata/dashboard.html', context)
-=======
-def region_list(request):
-    regions = StoreGameData.objects.values_list('region', flat=True).distinct()
-    return JsonResponse(list(regions), safe=False)
->>>>>>> 07f0949 (내 작업 백업 커밋)
+    return render(request, 'storedata/index.html', context)
