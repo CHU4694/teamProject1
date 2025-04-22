@@ -16,9 +16,29 @@ Including another URLconf
 """
 
 from django.contrib import admin
+<<<<<<< HEAD
+=======
+
+>>>>>>> 8de243b016fbf2c548428995a7a66d8fa9699a5e
 from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+<<<<<<< HEAD
     path("", include('storedata.urls')),
+=======
+<<<<<<< HEAD
+    path("", include('storedata.urls'))
+=======
+    path("", include('storedata.urls')),
+
+from django.urls import path,include
+
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('',include('storedata.urls'))
+
+>>>>>>> 7113f8746f26a3da2c41b0256c41a9c1501f0c85
+>>>>>>> 8de243b016fbf2c548428995a7a66d8fa9699a5e
 ]
