@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>보드게임 매장 현황</title>
+</head>
+<body>
+    <div class="container">
+        <h2>지역 목록</h2>
+        <ul>
+            <li><a href="?region=전체" {% if selected_region == '전체' %}class="active"{% endif %}>전체</a></li>
+            {% for region in regions %}
+            <li><a href="?region={{ region }}" {% if selected_region == region %}class="active"{% endif %}>{{ region }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <h2>선택한 지역: {{ selected_region }}</h2>
+        <h3>총 지점 수</h3>
+        <p>{{ count_locations }}개</p>
+        <h3>고유 보드게임 수</h3>
+        <p>{{ unique_games }}개</p>
+        <h3>지점별 평균 보유 게임 수</h3>
+        <p>{{ average_games|floatformat:1 }}개</p>
+            
+            
+        <h2>지점별 보유 현황</h2>
+        {% for store in stores %}
+            <h2>매장명: {{ store.store }}</h2>
+            <h2>지역: {{ store.region }}</h2>
+            <h2>보유 게임 수: {{ store.owned_count }}</h2>
+            <h2>미보유 게임 수: {{ store.missing_count }}</h2>
+            <h2>총합: {{ store.total }}</h2>
+        {% endfor %}
+    </div>
+</body>
+</html> 
