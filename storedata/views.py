@@ -14,7 +14,9 @@ REGION_MAP = {
     '전라': 'jeolla',
     '경상': 'gyeongsang',
     '충청': 'chungcheong',
-    '울산': 'ulsan'
+    '울산': 'ulsan',
+    '대구': 'daegu'
+
 }
 
 def index(request):
