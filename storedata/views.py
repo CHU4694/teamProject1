@@ -76,10 +76,14 @@ def index(request):
         'average_games': average_games,
         'stores': stores_data,
         'location_detail': location_detail,
+<<<<<<< HEAD
         'owned_list': owned_list,
         'missing_list': missing_list,
         'month_games': month_games,
         'english_region': english_region  
+=======
+        'month_games' : month_games
+>>>>>>> 5b52773818a690480e125640104eda54a3897c8a
     }
 
     return render(request, 'storedata/index.html', context)
