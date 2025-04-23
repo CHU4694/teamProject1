@@ -5,7 +5,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>보드게임 매장 현황</title>
-    
+    <style>
+      /* 툴팁 스타일 */
+      .tooltip {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+      }
+      
+      .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 300px;
+        background-color: #333;
+        color: #fff;
+        text-align: left;
+        border-radius: 6px;
+        padding: 10px;
+        position: absolute;
+        z-index: 1;
+        right: 0;
+        top: 100%;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      .tooltip .tooltiptext ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+      
+      /* 이달의 게임 버튼 스타일 */
+      .month-game-badge {
+        background-color: #e53e3e;
+        color: white;
+        font-weight: bold;
+        border-radius: 9999px;
+        padding: 0.25rem 0.75rem;
+        transition: background-color 0.2s;
+      }
+      
+      .month-game-badge:hover {
+        background-color: #c53030;
+      }
+
+      /* 이달의 게임 카드 스타일 */
+      .monthly-games-card {
+        background-color: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        padding: 1rem;
+        margin-top: 1rem;
+      }
+      
+      .monthly-games-title {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.75rem;
+      }
+      
+      .monthly-badge {
+        background-color: #e53e3e;
+        color: white;
+        font-weight: bold;
+        border-radius: 9999px;
+        padding: 0.25rem 0.75rem;
+        margin-right: 0.5rem;
+      }
+      
+      .monthly-games-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      
+      .game-tag {
+        background-color: #f3f4f6;
+        border-radius: 0.375rem;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.875rem;
+        display: inline-block;
+      }
+
+      /* 2열 레이아웃 */
+      .two-column-layout {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 1rem;
+      }
+    </style>
 </head>
 <body class="h-screen flex">
   <!-- 왼쪽 사이드바 -->
@@ -27,14 +119,33 @@
   <!-- 오른쪽 콘텐츠 -->
   <main class="w-4/5 p-6 space-y-6 overflow-auto">
     <h1 id="region-title" class="text-2xl font-bold">선택한 지역: {{ selected_region }}</h1>
-    <section id="summary-box" class="bg-white shadow p-4 rounded">
-      <p><strong>{{ selected_region }}</strong> 통계 </p>
-      <ul class="list-disc list-inside">
-        <li>총 지점 수: {{ count_locations }}</li>
-        <li>고유 보드게임 수: {{ unique_games }}</li>
-        <li>지점별 평균 보유 게임 수: {{ average_games|floatformat:1 }}</li>
-      </ul>
-    </section>
+    
+    <!-- 통계 섹션과 이달의 게임 배치 -->
+    <div class="two-column-layout">
+      <!-- 통계 섹션 -->
+      <section id="summary-box" class="bg-white shadow p-4 rounded">
+        <p><strong>{{ selected_region }}</strong> 통계 </p>
+        <ul class="list-disc list-inside">
+          <li>총 지점 수: {{ count_locations }}</li>
+          <li>고유 보드게임 수: {{ unique_games }}</li>
+          <li>지점별 평균 보유 게임 수: {{ average_games|floatformat:1 }}</li>
+        </ul>
+      </section>
+      
+      <!-- 이달의 게임 -->
+      <div class="tooltip bg-white shadow p-4 rounded flex justify-center items-center">
+        <span class="month-game-badge">이달의 게임 🎲</span>
+        <div class="tooltiptext">
+          <p class="font-bold mb-2">📌 이달의 추천 게임 목록</p>
+          <ul class="list-disc list-inside">
+            {% for game in month_games %}
+              <li>{{ game }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    
     <!--크기 키움-->
     <section class="flex gap-4 h-[300px]">
       <div id="chart-box" class="flex-1 bg-white shadow p-4 rounded">차트 자리</div>

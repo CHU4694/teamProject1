@@ -76,8 +76,6 @@ def index(request):
         'average_games': average_games,
         'stores': stores_data,
         'location_detail': location_detail,
-        'owned_list': owned_list,
-        'missing_list': missing_list,
         'month_games' : month_games
     }
     
