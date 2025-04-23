@@ -87,6 +87,9 @@
           <li>총 지점 수: {{ count_locations }}</li>
           <li>고유 보드게임 수: {{ unique_games }}</li>
           <li>지점별 평균 보유 게임 수: {{ average_games|floatformat:1 }}</li>
+          <li>지점별 평균 미보유 게임 수: {{ average_missing_games|floatformat:1 }}</li>
+          <li>대표 지점: {{ best_store.store }}</li>
+
         </ul>
       </section>
 

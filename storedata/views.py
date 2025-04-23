@@ -31,11 +31,24 @@ def index(request):
 
     all_games = set()
     for store in queryset:
-        owned_games = store.owned_list.split(';') if store.owned_list else []
+        owned_games = store.owned_list.split(',') if store.owned_list else []
         all_games.update(owned_games)
     unique_games = len(all_games)
 
     average_games = queryset.aggregate(avg=Avg('owned_count'))['avg']
+    #평균 미보유 게임 수 계산
+    average_missing_games = queryset.aggregate(avg=Avg('missing_count'))['avg']
+
+    best_store = None
+    if queryset.exists():
+        best_store = queryset.order_by('-owned_count').first()
+        best_store_info = {
+            'store': best_store.store,
+            'owned_count': best_store.owned_count,
+            'region': best_store.region
+        }
+    else:
+        best_store_info = None
 
     stores_data = []
     for store in queryset:
@@ -76,16 +89,14 @@ def index(request):
         'count_locations': count_locations,
         'unique_games': unique_games,
         'average_games': average_games,
+        'average_missing_games': average_missing_games, #평균 미보유 게임 수
         'stores': stores_data,
+        'best_store': best_store_info,
         'location_detail': location_detail,
-
         'owned_list': owned_list,
         'missing_list': missing_list,
         'month_games': month_games,
-        'english_region': english_region,  
-
-        'month_games' : month_games
-
+        'english_region': english_region
     }
 
     return render(request, 'storedata/index.html', context)
