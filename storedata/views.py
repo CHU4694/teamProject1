@@ -21,7 +21,10 @@ REGION_MAP = {
 
 def index(request):
     selected_region = request.GET.get('region', '전체')
+
+    region_order = ['서울', '경기', '인천', '충청', '대전', '대구', '경상', '전라', '광주', '울산', '부산', '제주']
     regions = list(set(StoreGameData.objects.values_list('region', flat=True)))
+    regions = [region for region in region_order if region in regions]
 
     queryset = StoreGameData.objects.all()
     if selected_region != '전체':
@@ -29,11 +32,13 @@ def index(request):
 
     count_locations = queryset.count()
 
-    all_games = set()
+    all_games = []
     for store in queryset:
-        owned_games = store.owned_list.split(';') if store.owned_list else []
-        all_games.update(owned_games)
-    unique_games = len(all_games)
+        if store.owned_list:
+            games = [game.strip() for game in store.owned_list.split(',')]
+            all_games.extend(games)
+
+    unique_games = len(set(all_games))
 
     average_games = queryset.aggregate(avg=Avg('owned_count'))['avg']
 
@@ -82,9 +87,7 @@ def index(request):
         'owned_list': owned_list,
         'missing_list': missing_list,
         'month_games': month_games,
-        'english_region': english_region,  
-
-        'month_games' : month_games
+        'english_region': english_region
 
     }
 
