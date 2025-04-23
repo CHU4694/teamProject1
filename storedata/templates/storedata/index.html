@@ -52,9 +52,10 @@
 
   <!-- 사이드바 -->
   <aside class="w-1/6 bg-gray-100 p-4">
-    <h2 class="text-xl font-bold mb-4">지역 목록</h2>
-      {% for region in regions %}
-        <li><a href="?region={{ region }}" class="cursor-pointer hover:text-blue-600 px-2 py-1 {% if selected_region == region %}text-blue-600 font-bold{% endif %}">{{ region }}</a></li>
+    <h2 class="text-4xl font-bold mb-4">지역 목록</h2>
+    <ul class="list-disc list-inside space-y-2">  
+    {% for region in regions %}
+        <li><a href="?region={{ region }}" class="text-3xl cursor-pointer hover:text-blue-600 px-2 py-1 {% if selected_region == region %}text-blue-600 font-bold{% endif %}">{{ region }}</a></li>
       {% endfor %}
     </ul>
   </aside>
@@ -64,9 +65,9 @@
 
     <!-- 선택한 지역 + 이달의 게임 버튼 -->
     <div class="flex items-center justify-between mb-4">
-      <h1 id="region-title" class="text-2xl font-bold">선택한 지역: {{ selected_region }}</h1>
+      <h1 id="region-title" class="text-4xl font-bold">선택한 지역: {{ selected_region }}</h1>
       <div class="tooltip">
-        <span class="month-game-badge">이달의 게임 🎲</span>
+        <span class="text-2xl month-game-badge">이달의 게임 🎲</span>
         <div class="tooltiptext">
           <p class="font-bold mb-2">📌 이달의 추천 게임 목록</p>
           <ul class="list-disc list-inside">
@@ -82,7 +83,7 @@
     <div class="flex gap-4">
       <!-- 통계 요약 박스 -->
       <section id="summary-box" class="w-3/5 bg-white shadow p-4 rounded">
-        <p class="text-2xl font-bold mb-2"><strong>{{ selected_region }}</strong> 통계</p>
+        <p class="text-3xl font-bold mb-2"><strong>{{ selected_region }}</strong> 통계</p>
         <ul class="list-disc list-inside space-y-2">
           <li>총 지점 수: {{ count_locations }}</li>
           <li>고유 보드게임 수: {{ unique_games }}</li>
@@ -109,7 +110,7 @@
 
     <!-- 지점별 보유/미보유 -->
     <section id="table-box" class="bg-white shadow p-4 rounded">
-      <p class="text-lg font-semibold mb-4">지점별 보유/미보유 게임</p>
+      <p class="text-2xl font-semibold mb-4">지점별 보유/미보유 게임</p>
       <ul id="store-list" class="space-y-6">
         {% for store in stores %}
           <li class="border p-4 rounded bg-gray-50 shadow-sm">
