@@ -23,18 +23,23 @@
     <h1 id="region-title" class="text-2xl font-bold">선택한 지역: {{ selected_region }}</h1>
 
     <section id="summary-box" class="bg-white shadow p-4 rounded">
-      <ul class="list-disc list-inside">
+      <div ul class="list-disc list-inside">
         <li>총 지점 수: {{ count_locations }}개</li>
         <li>고유 보드게임 수: {{ unique_games }}개</li>
-        <li>지점별 평균 보유 게임 수: {{ average_games|floatformat:1 }}개</li>
+        <li>지점별 평균 보유 게임 수: {{ average_games|floatformat:1 }}개</li></div>
+      <div id="" class="bg-white shadow p-4 rounded"></div>
       </ul>
     </section>
 
     <section class="flex gap-4 h-[300px]">
       <div id="chart-box" class="flex-1 bg-white shadow p-4 rounded overflow-auto">차트 자리</div>
+      
       <div id="wordcloud-box" class="flex-1 bg-white shadow p-4 rounded overflow-auto">워드클라우드 자리</div>
     </section>
+
     <section id="heatmap-box" class="bg-white shadow p-4 rounded h-[400px]">히트맵 자리</section>
+
+    <section id="heatmap-box" class="bg-white shadow p-4 rounded h-[400px] overflow-x-auto">히트맵 자리</section>
 
     <section id="table-box" class="bg-white shadow p-4 rounded">
       <p class="text-lg font-semibold mb-4">지점별 보유/미보유 게임</p>
@@ -71,10 +76,27 @@
     window.location.href = '?region=' + encodeURIComponent(region);
   }
 
+
   function toggle(id) {
     const el = document.getElementById(id);
     if (el) el.classList.toggle('hidden');
   }
+
+    // 차트, 워드클라우드, 히트맵 함수
+    function renderCharts(region) {
+      document.getElementById('chart-box').innerHTML = `<img src="/static/visualization/bar_chart/{{ english_region }}_bar_chart.png" class="w-full h-full object-contain" alt="차트">`;
+      document.getElementById('wordcloud-box').innerHTML = `<img src="/static/visualization/word_cloud/${english_region}_word_cloud.png" alt="워드클라우드">`;
+      document.getElementById('heatmap-box').innerHTML =
+        `<div style="display: table; margin: 0 auto; min-width: max-content;">
+          <img src="/static/visualization/heatmap/${english_region}_heatmap.png" style="height: 360px;">
+        </div>`;
+    }
+
+    // 페이지 로드 시 현재 선택된 지역에 대한 차트 렌더링
+    window.onload = function() {
+      renderCharts('{{ english_region }}');
+    };
+
   </script>
 </body>
 </html>
