@@ -81,7 +81,7 @@
         <!-- 통계 섹션 + 요약 그래프 병렬 배치 -->
     <div class="flex gap-4">
       <!-- 통계 요약 박스 -->
-      <section id="summary-box" class="w-2/3 bg-white shadow p-4 rounded">
+      <section id="summary-box" class="w-3/5 bg-white shadow p-4 rounded">
         <p class="text-2xl font-bold mb-2"><strong>{{ selected_region }}</strong> 통계</p>
         <ul class="list-disc list-inside space-y-2">
           <li>총 지점 수: {{ count_locations }}</li>
@@ -91,7 +91,7 @@
       </section>
 
       <!-- 파이차트-->
-      <section id="summary-chart" class="w-1/3 bg-white shadow p-4 rounded flex items-center justify-center">
+      <section id="summary-chart" class="w-2/5 bg-white shadow p-4 rounded flex items-center justify-center">
         <img src="/static/visualization/pie_chart/{{ english_region }}_pie_chart.png"
             alt="파이 차트"
             class="object-contain max-h-[200px]" />
@@ -100,8 +100,8 @@
 
     <!-- 차트, 워드클라우드 -->
     <section class="flex gap-4 h-[300px]">
-      <div id="chart-box" class="flex-1 bg-white shadow p-4 rounded overflow-auto">차트 자리</div>
-      <div id="wordcloud-box" class="flex-1 bg-white shadow p-4 rounded overflow-auto">워드클라우드 자리</div>
+      <div id="chart-box" class="w-3/5 bg-white shadow p-4 rounded overflow-auto">차트 자리</div>
+      <div id="wordcloud-box" class="w-2/5 bg-white shadow p-4 rounded overflow-auto">워드클라우드 자리</div>
     </section>
 
     <!-- 히트맵 -->
@@ -155,12 +155,11 @@
              alt="워드클라우드"
              class="w-full h-full object-contain max-h-[280px]" />`;
     
-      document.getElementById('heatmap-box').innerHTML = `
-        <div style="display: flex; justify-content: center;">
-          <img src="/static/visualization/heatmap/{{ english_region }}_heatmap.png"
-               style="max-height: 360px; width: auto; height: auto;"
-               alt="히트맵" />
-        </div>`;
+             document.getElementById('heatmap-box').innerHTML =
+             `<div style="display: table; margin: 0 auto; min-width: max-content;">
+               <img src="/static/visualization/heatmap/{{ english_region }}_heatmap.png" style="height: 330px;">
+             </div>`;
+     
     }
     window.onload = function() {
       renderCharts('{{ english_region }}');
