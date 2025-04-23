@@ -40,7 +40,7 @@
       <div id="chart-box" class="flex-1 bg-white shadow p-4 rounded">차트 자리</div>
       <div id="wordcloud-box" class="flex-1 bg-white shadow p-4 rounded">워드클라우드 자리</div>
     </section>
-    <section id="heatmap-box" class="bg-white shadow p-4 rounded h-[400px]">히트맵 자리</section>
+    <section id="heatmap-box" class="bg-white shadow p-4 rounded h-[400px] overflow-x-auto">히트맵 자리</section>
     <section id="table-box" class="bg-white shadow p-4 rounded">
       <p>지점별 보유/미보유 게임</p>
       <ul id="store-list" class="space-y-2">
@@ -83,7 +83,10 @@
     function renderCharts(region) {
       document.getElementById('chart-box').innerHTML = `<img src="/static/charts/${region}.png" class="w-full h-full object-contain" alt="차트">`;
       document.getElementById('wordcloud-box').innerHTML = `<img src="/static/wordclouds/${region}.png" alt="워드클라우드">`;
-      document.getElementById('heatmap-box').innerHTML = `<img src="/static/heatmaps/${region}.png" alt="히트맵">`;
+      document.getElementById('heatmap-box').innerHTML =
+        `<div style="display: table; margin: 0 auto; min-width: max-content;">
+          <img src="/static/heatmaps/${region}.png" style="height: 360px;">
+        </div>`;
     }
 
     // 페이지 로드 시 현재 선택된 지역에 대한 차트 렌더링
