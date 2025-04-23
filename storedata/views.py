@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .models import StoreGameData
-from django.db.models import Count, Sum, Avg
+from .models import StoreGameData , MonthlyGame
+from django.db.models import Avg
 
 # Create your views here.
 
@@ -64,6 +64,9 @@ def index(request):
             }
         except StoreGameData.DoesNotExist:
             location_detail = None
+
+    # 이달이 게임 목록록
+    month_games = [game.name for game in MonthlyGame.objects.all()]
     
     context = {
         'selected_region': selected_region,
@@ -74,7 +77,8 @@ def index(request):
         'stores': stores_data,
         'location_detail': location_detail,
         'owned_list': owned_list,
-        'missing_list': missing_list
+        'missing_list': missing_list,
+        'month_games' : month_games
     }
     
     return render(request, 'storedata/index.html', context)
