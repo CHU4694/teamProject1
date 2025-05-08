@@ -3,3 +3,6 @@ Django @ file:///C:/b/abs_d8jy6px5xv/croot/django_1731616483677/work
 setuptools==75.8.0
 sqlparse @ file:///C:/b/abs_68npyz0s6_/croot/sqlparse_1734704476369/work
 wheel==0.45.1
+
+
+#pip freeze > requirements.txt
