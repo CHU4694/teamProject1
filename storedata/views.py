@@ -16,7 +16,6 @@ REGION_MAP = {
     '충청': 'chungcheong',
     '울산': 'ulsan',
     '대구': 'daegu'
-
 }
 
 def index(request):
